@@ -1,94 +1,45 @@
+
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <h2>Essential Links</h2>
-    <ul>
-      <li>
-        <a
-          href="https://vuejs.org"
-          target="_blank"
+  <div class="Search">
+      <div>Weather App</div>
+      <form id="search-component" @submit="checkForm">
+        <input v-model="city" placeholder="Search City">
+        <input
+          type="submit"
+          value="Submit"
         >
-          Core Docs
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://forum.vuejs.org"
-          target="_blank"
-        >
-          Forum
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://chat.vuejs.org"
-          target="_blank"
-        >
-          Community Chat
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://twitter.com/vuejs"
-          target="_blank"
-        >
-          Twitter
-        </a>
-      </li>
-      <br>
-      <li>
-        <a
-          href="http://vuejs-templates.github.io/webpack/"
-          target="_blank"
-        >
-          Docs for This Template
-        </a>
-      </li>
-    </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li>
-        <a
-          href="http://router.vuejs.org/"
-          target="_blank"
-        >
-          vue-router
-        </a>
-      </li>
-      <li>
-        <a
-          href="http://vuex.vuejs.org/"
-          target="_blank"
-        >
-          vuex
-        </a>
-      </li>
-      <li>
-        <a
-          href="http://vue-loader.vuejs.org/"
-          target="_blank"
-        >
-          vue-loader
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://github.com/vuejs/awesome-vue"
-          target="_blank"
-        >
-          awesome-vue
-        </a>
-      </li>
-    </ul>
+      </form>
+      {{ city }}
+      {{ info }}
   </div>
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
-  name: 'HelloWorld',
+  name: 'search-component',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      apiKey: 'daa13c2413cf4c4c92eca3f2ae204eda',
+      info: null,
+      city: null,
+      errors: []
+    }
+  },
+  methods: {
+    checkForm (e) {
+      e.preventDefault()
+      console.log(this.city)
+      axios
+        .get(`https://api.weatherbit.io/v2.0/forecast/daily?&city=${this.city}&country=US&key=${this.apiKey}`)
+        .then(response => {
+        console.log(response.data)
+        this.info = response.data
+      })
+      .catch(err => {
+        console.log(err)
+      })
     }
   }
 }
@@ -96,18 +47,5 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h1, h2 {
-  font-weight: normal;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
+
 </style>
