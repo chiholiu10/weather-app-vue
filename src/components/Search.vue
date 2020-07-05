@@ -10,17 +10,19 @@
           value="Submit"
         >
       </form>
-        <div v-for="(country, index) in info" :key="index"> 
-          <template v-if="index <= 10">
-            <template v-if="index == 0">
-              {{ weekDate(country.datetime) }}
-            </template>
-            <template v-else>
-              {{ dayFullName(country.datetime) }}
-            </template>
-            {{ averageTemperature(country.min_temp, country.max_temp) + ' °C' }}
+
+      <div v-for="(country, index) in info" :key="index"> 
+        <template v-if="index <= 10">
+          <template v-if="index == 0">
+            {{ weekDate(country.datetime) }}
           </template>
-        </div>
+          <template v-else>
+            {{ dayFullName(country.datetime) }}
+          </template>
+          {{ averageTemperature(country.min_temp, country.max_temp) + ' °C' }}
+        </template>
+      </div>
+
   </div>
 </template>
 
@@ -42,7 +44,6 @@ export default {
   methods: {
     checkForm (e) {
       e.preventDefault()
-      console.log(this.city);
       axios
         .get(`https://api.weatherbit.io/v2.0/forecast/daily?&city=${this.city}&country=US&key=${this.apiKey}`)
         .then(response => {
@@ -53,20 +54,25 @@ export default {
         console.log(err)
       })
     },
+    checkCountryName () {
+      // filter city_name and get output country_code
+      axios.get(url)
+        .then(response => {
+          console.log(resons)
+        })
+    },
     weekDate (value) {
-      const entireWeek = moment(value).format("MMMM D -") + moment(value).add(7, 'days').format("D YYYY")
-      return entireWeek;
+      const entireWeek = moment(value).format('MMMM D -') + moment(value).add(7, 'days').format('D YYYY')
+      return entireWeek
     },
     dayFullName (date) {
-      const getFullName = moment(date).format('dddd');
-      return getFullName;
+      const getFullName = moment(date).format('dddd')
+      return getFullName
     },
     averageTemperature (minTemperature, maxTemperature) {
       const averageTemperature = Math.floor((minTemperature + maxTemperature) / 2)
-      return averageTemperature;
-    }
-
-              
+      return averageTemperature
+    }        
   }
 }
 </script>
