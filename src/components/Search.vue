@@ -49,7 +49,7 @@ export default {
     checkForm (e) {
       e.preventDefault()
       axios
-        .get(`https://api.weatherbit.io/v2.0/forecast/daily?&city=${this.city}&country=${this.countryCode}key=${this.apiKey}`)
+        .get(`https://api.weatherbit.io/v2.0/forecast/daily?&city=${this.city}&country=${this.countryCode}&key=${this.apiKey}`)
         .then(response => {
         this.info = response.data.data
       })
@@ -60,9 +60,10 @@ export default {
     checkCountryName () {
       // filter city_name and get output country_code
       console.log('check')
-      axios.get(`https://api.weatherbit.io/v2.0/forecast/daily?&city=${this.city}&key=${this.apiKey}`)
+      axios.request(`https://api.weatherbit.io/v2.0/forecast/daily?&city=${this.city}&key=${this.apiKey}`)
         .then(response => {
           this.countryCode = response.data.country_code
+          console.log(response.data)
         })
         .catch(err => {
           console.log(err)
