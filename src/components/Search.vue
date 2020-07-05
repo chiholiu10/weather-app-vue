@@ -4,7 +4,11 @@
       <div>Weather App</div>
       <form id="search-component" @submit="checkForm">
         <input v-model="city" placeholder="Please enter your location...">
-  
+        <select v-model="country">
+          <option>
+
+          </option>
+        </select>
         <input
           type="submit"
           value="Submit"
@@ -38,6 +42,9 @@ export default {
       apiKey: 'daa13c2413cf4c4c92eca3f2ae204eda',
       info: null,
       city: null,
+      country: [{
+        // how to get country based on input
+      }],
       errors: []
     }
   },
@@ -45,7 +52,7 @@ export default {
     checkForm (e) {
       e.preventDefault()
       axios
-        .get(`https://api.weatherbit.io/v2.0/forecast/daily?&city=${this.city}&country=US&key=${this.apiKey}`)
+        .get(`https://api.weatherbit.io/v2.0/forecast/daily?&city=${this.city}&key=${this.apiKey}`)
         .then(response => {
         console.log(response.data)
         this.info = response.data.data
