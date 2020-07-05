@@ -7,6 +7,8 @@
 
 <script>
 import HelloWorld from './components/HelloWorld'
+import moment from 'moment';
+import VueMoment from 'vue-moment';
 
 export default {
   name: 'App',
