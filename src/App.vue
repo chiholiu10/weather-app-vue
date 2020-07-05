@@ -1,19 +1,19 @@
 <template>
   <div id="app">
     <img src="./assets/logo.png">
-    <HelloWorld/>
+    <Search/>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld'
+import Search from './components/Search'
 import moment from 'moment';
 import VueMoment from 'vue-moment';
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    Search
   }
 }
 </script>
