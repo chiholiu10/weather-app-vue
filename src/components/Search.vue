@@ -12,20 +12,22 @@
       </form>
         <div v-for="(country, index) in info" :key="index"> 
           <template v-if="index == 0">
-             {{ country.datetime }}
+             {{ weekDate(country.datetime) }}
           </template>
           <template v-else>
-            {{ country.datetime ||  moment("dddd") }}
+            {{ dayFullName(country.datetime) }}
           </template>
-          {{ Math.floor((country.min_temp + country.max_temp) / 2) }}
+          {{ averageTemperature(country.min_temp, country.max_temp) + ' °C' }}
         </div>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
+import moment from 'moment'
 
 export default {
+  
   name: 'Search',
   data () {
     return {
@@ -48,7 +50,21 @@ export default {
       .catch(err => {
         console.log(err)
       })
+    },
+    weekDate (value) {
+      const entireWeek = moment(value).format("MMMM D -") + moment(value).add(7, 'days').format("D YYYY")
+      return entireWeek;
+    },
+    dayFullName (date) {
+      const getFullName = moment(date).format('dddd');
+      return getFullName;
+    },
+    averageTemperature (minTemperature, maxTemperature) {
+      const averageTemperature = Math.floor((minTemperature + maxTemperature) / 2)
+      return averageTemperature;
     }
+
+              
   }
 }
 </script>
