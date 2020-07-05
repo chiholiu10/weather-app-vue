@@ -7,8 +7,6 @@
 
 <script>
 import Search from './components/Search'
-import moment from 'moment';
-import VueMoment from 'vue-moment';
 
 export default {
   name: 'App',
