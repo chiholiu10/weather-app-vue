@@ -11,13 +11,15 @@
         >
       </form>
         <div v-for="(country, index) in info" :key="index"> 
-          <template v-if="index == 0">
-             {{ weekDate(country.datetime) }}
+          <template v-if="index <= 10">
+            <template v-if="index == 0">
+              {{ weekDate(country.datetime) }}
+            </template>
+            <template v-else>
+              {{ dayFullName(country.datetime) }}
+            </template>
+            {{ averageTemperature(country.min_temp, country.max_temp) + ' °C' }}
           </template>
-          <template v-else>
-            {{ dayFullName(country.datetime) }}
-          </template>
-          {{ averageTemperature(country.min_temp, country.max_temp) + ' °C' }}
         </div>
   </div>
 </template>
