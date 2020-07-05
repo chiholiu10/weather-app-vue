@@ -3,10 +3,10 @@
   <div class="Search">
       <div>Weather App</div>
       <form id="search-component" @submit="checkForm">
-        <input v-model="city" placeholder="Please enter your location...">
-        <select v-model="country">
+        <input v-model="city" placeholder="Please enter your location..." @input="checkCountryName">
+        <select >
           <option>
-
+              {{ this.countryCode }}
           </option>
         </select>
         <input
@@ -35,16 +35,13 @@ import axios from 'axios'
 import moment from 'moment'
 
 export default {
-  
   name: 'Search',
   data () {
     return {
       apiKey: 'daa13c2413cf4c4c92eca3f2ae204eda',
       info: null,
       city: null,
-      country: [{
-        // how to get country based on input
-      }],
+      countryCode: null,
       errors: []
     }
   },
@@ -52,9 +49,8 @@ export default {
     checkForm (e) {
       e.preventDefault()
       axios
-        .get(`https://api.weatherbit.io/v2.0/forecast/daily?&city=${this.city}&key=${this.apiKey}`)
+        .get(`https://api.weatherbit.io/v2.0/forecast/daily?&city=${this.city}&country=${this.countryCode}key=${this.apiKey}`)
         .then(response => {
-        console.log(response.data)
         this.info = response.data.data
       })
       .catch(err => {
@@ -63,9 +59,13 @@ export default {
     },
     checkCountryName () {
       // filter city_name and get output country_code
-      axios.get(url)
+      console.log('check')
+      axios.get(`https://api.weatherbit.io/v2.0/forecast/daily?&city=${this.city}&key=${this.apiKey}`)
         .then(response => {
-          console.log(resons)
+          this.countryCode = response.data.country_code
+        })
+        .catch(err => {
+          console.log(err)
         })
     },
     weekDate (value) {
