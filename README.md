@@ -26,5 +26,12 @@ npm run e2e
 # run all tests
 npm test
 ```
-
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+# Assignment
+Develop a simple frontend application using best practices that calculates the average temperature forecast of a city.
+The design is located here:
+https://www.figma.com/file/AvW3g7PArmDFTYMp3TiTcb/Weather-app?node-id=6%3A212
+Follow the provided design. On top you will have the input, on the bottom the results with live reload.
+A user should be able to enter the name of a city and a 2-letter country code. The application will lookup the weather forecast of that city.
+The application then averages the forecasted temperature of the next 10 days.
+It also displays the temperature for the next 7 days with the day (monday-sunday) and the corresponding temperature.
+Also the background has a gradient where the end point is the color attached to the average temperature on the next 10 days.
