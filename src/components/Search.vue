@@ -15,7 +15,7 @@
         >
       </form>
 
-      <div v-for="(country, index) in info" :key="index"> 
+      <div v-for="(country, index) in info" :key="index">
         <template v-if="index <= 10">
           <template v-if="index == 0">
             {{ weekDate(country.datetime) }}
@@ -51,11 +51,11 @@ export default {
       axios
         .get(`https://api.weatherbit.io/v2.0/forecast/daily?&city=${this.city}&country=${this.countryCode}&key=${this.apiKey}`)
         .then(response => {
-        this.info = response.data.data
-      })
-      .catch(err => {
-        console.log(err)
-      })
+          this.info = response.data.data
+        })
+        .catch(err => {
+          console.log(err)
+        })
     },
     checkCountryName () {
       // filter city_name and get output country_code
@@ -80,7 +80,7 @@ export default {
     averageTemperature (minTemperature, maxTemperature) {
       const averageTemperature = Math.floor((minTemperature + maxTemperature) / 2)
       return averageTemperature
-    }        
+    }
   }
 }
 </script>
