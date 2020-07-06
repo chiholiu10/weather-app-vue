@@ -5,8 +5,8 @@
       <form id="search-component" @submit="checkForm">
         <input v-model="city" placeholder="Please enter your location...">
         <select >
-          <option>
-              {{ this.countryCode }}
+          <option v-for="(country, index) in checkCountryName" :key="index">
+              {{ country.country_code }}
           </option>
         </select>
         <input
@@ -41,7 +41,7 @@ export default {
       apiKey: 'daa13c2413cf4c4c92eca3f2ae204eda',
       info: null,
       city: null,
-      cityList: null,
+      cityList: [],
       countryCode: null,
       errors: []
     }
@@ -51,6 +51,13 @@ export default {
       .then(response => {
         this.cityList = response.data
       })
+  },
+  computed: {
+    checkCountryName () {
+      return this.cityList.filter((cityName) => {
+        return cityName.city_name.match(this.city)
+      })
+    }
   },
   methods: {
     checkForm (e) {
