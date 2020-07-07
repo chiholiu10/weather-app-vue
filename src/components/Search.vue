@@ -3,12 +3,14 @@
   <div class="Search">
       <div>Weather App</div>
       <form id="search-component" @submit="checkForm">
-        <input v-model="city" placeholder="Please enter your location...">
-        <select >
-          <option v-for="(country, index) in checkCountryName" :key="index">
+        <select v-model="countryCode">
+          <option v-for="(country, index) in checkCountryName" :key="index" :value="country.country_code" :selected="index === 0">
+              <!-- {{country}} -->
               {{ country.country_code }}
           </option>
         </select>
+        <input v-model="city" placeholder="Please enter your location...">
+
         <input
           type="submit"
           value="Submit"
@@ -16,7 +18,7 @@
       </form>
 
       <div v-for="(country, index) in info" :key="index">
-        <template v-if="index <= 10">
+        <template v-if="index <= 7">
           <template v-if="index == 0">
             {{ weekDate(country.datetime) }}
           </template>
@@ -40,7 +42,7 @@ export default {
     return {
       apiKey: 'daa13c2413cf4c4c92eca3f2ae204eda',
       info: null,
-      city: null,
+      city: '',
       cityList: [],
       countryCode: null,
       errors: []
@@ -49,13 +51,14 @@ export default {
   mounted () {
     axios.get('https://gist.githubusercontent.com/chiholiu/9243c14cd7f310c0866947414496ad99/raw/8f97404080b3812477004793e2318552fc876aa2/cities.json')
       .then(response => {
-        this.cityList = response.data
+          this.cityList = response.data
       })
   },
   computed: {
     checkCountryName () {
+      if(this.city.length < 1) return;
       return this.cityList.filter((cityName) => {
-        return cityName.city_name.match(this.city)
+        return cityName.city_name.toLowerCase().match(this.city.toLowerCase())
       })
     }
   },
@@ -65,6 +68,7 @@ export default {
       axios
         .get(`https://api.weatherbit.io/v2.0/forecast/daily?&city=${this.city}&country=${this.countryCode}&key=${this.apiKey}`)
         .then(response => {
+          console.log(response.data.data)
           this.info = response.data.data
         })
         .catch(err => {
