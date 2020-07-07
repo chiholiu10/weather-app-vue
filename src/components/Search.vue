@@ -2,14 +2,14 @@
 <template>
   <div class="Search">
       <div>Weather App</div>
-      <form id="search-component" @submit="checkForm">
-        <select v-model="countryCode">
+      <form id="search-component" @submit="checkForm" class="form-component">
+        <select v-model="countryCode" @change="handleChange">
           <option v-for="(country, index) in checkCountryName" :key="index" :value="country.country_code" :selected="index === 0">
-              <!-- {{country}} -->
               {{ country.country_code }}
           </option>
         </select>
-        <input v-model="city" placeholder="Please enter your location...">
+         <div v-if="country !== undefined">{{ country.city_name }}</div>
+        <input class="input-field" v-model="city" placeholder="Please enter your location...">
 
         <input
           type="submit"
@@ -18,15 +18,23 @@
       </form>
 
       <div v-for="(country, index) in info" :key="index">
-        <template v-if="index <= 7">
-          <template v-if="index == 0">
-            {{ weekDate(country.datetime) }}
-          </template>
-          <template v-else>
+        <div v-if="index <= 7">
+          <div v-if="index == 0" class="entire-week">
+            <div class="week-date">
+              {{ weekDate(country.datetime) }}
+            </div>
+            <div class="average-temperature">
+              {{ averageTemperature(country.min_temp, country.max_temp) + ' °C' }}
+            </div>
+          </div>
+
+          <div v-else>
             {{ dayFullName(country.datetime) }}
-          </template>
-          {{ averageTemperature(country.min_temp, country.max_temp) + ' °C' }}
-        </template>
+            {{ averageTemperature(country.min_temp, country.max_temp) + ' °C' }}
+          </div>
+
+        
+        </div>
       </div>
 
   </div>
@@ -65,8 +73,9 @@ export default {
   methods: {
     checkForm (e) {
       e.preventDefault()
+      // .get(`https://api.weatherbit.io/v2.0/forecast/daily?&city=${this.city}&country=${this.countryCode}&key=${this.apiKey}`)
       axios
-        .get(`https://api.weatherbit.io/v2.0/forecast/daily?&city=${this.city}&country=${this.countryCode}&key=${this.apiKey}`)
+        .get(`https://api.weatherbit.io/v2.0/forecast/daily?&city=amsterdam&country=NL&key=${this.apiKey}`)
         .then(response => {
           console.log(response.data.data)
           this.info = response.data.data
@@ -87,12 +96,28 @@ export default {
       const averageTemperature = Math.floor((minTemperature + maxTemperature) / 2)
       return averageTemperature
     },
-
+    handleChange (e) {
+       if(e.target.options.selectedIndex > -1) {
+          console.log(e.target.options[[e.target.options.selectedIndex]])
+       }
+    }
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
+.form-component {
+  max-width: 632px;
+  height: 92px;
+  left: 404px;
+  top: 194px;
+  
+}
+.input-field {
+  border: 1px solid rgba(8, 21, 62, 0.05);
+}
+.average-temperature {
+  font-size: 100px;
+}
 </style>
