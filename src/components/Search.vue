@@ -32,8 +32,7 @@
             {{ dayFullName(country.datetime) }}
             {{ averageTemperature(country.min_temp, country.max_temp) + ' °C' }}
           </div>
-
-        
+          
         </div>
       </div>
 
