@@ -16,6 +16,15 @@ export default {
 </script>
 
 <style>
+html, body {
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  width: 100%;
+  bottom: 0;
+  height: 100vh;
+  background: linear-gradient(145.74deg, #9BDBFF -33.02%, #B4DEDA 52.01%, #FFD66B 137.04%);
+}
 #app {
   font-family: Poppins;
   font-style: normal;
@@ -26,9 +35,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  padding: 0;
-  margin: 0;
-  overflow: hidden;
-  width: 100%;
+
 }
 </style>
