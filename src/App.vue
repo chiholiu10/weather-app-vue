@@ -19,7 +19,7 @@ export default {
 html, body {
   padding: 0;
   margin: 0;
-  overflow: hidden;
+  overflow-x: hidden;
   width: 100%;
   bottom: 0;
   height: 100vh;
