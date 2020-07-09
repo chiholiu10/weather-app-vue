@@ -11,9 +11,7 @@
               :key="index"
               :value="country.country_code"
               :selected="index === 0"
-              :data-value="country.city_name"
-              :style="{backgroundImage: url(`https://www.countryflags.io/NL/flat/64.png`)}"
-            
+              :data-value="country.city_name"            
             >
               {{ country.country_code }}
             </option>
@@ -32,7 +30,32 @@
 
       </div>
     </form>
-    
+
+    <div v-for="(country, index) in info" :key="index">
+      <div v-if="index < 7">
+
+        <div v-if="index == 0" class="week-date-block">
+          <div class="week-date date capitalize">{{ weekDate(country.datetime) }}</div>
+          <div class="average-temperature">
+            <div class="temperature-container">
+              <div class="temperature temperature-week">{{ averageTemperature(country.min_temp, country.max_temp) }}
+                <div class="celsius">°C</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div v-else class="day-of-weeks">
+          <div class="date capitalize">{{ dayFullName(country.datetime) }}</div>
+          <div class="temperature-container">
+            <div class="temperature">{{ averageTemperature(country.min_temp, country.max_temp) }}
+              <div class="celsius">°C</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
   </div>
 </template>
 
@@ -51,7 +74,6 @@ export default {
       cityList: [],
       countryCode: null,
       linearGradient: '',
-      backgroundImage: 'https://www.countryflags.io/' + this.countryCode + '/flat/64.png',
       errors: []
     }
   },
@@ -108,6 +130,7 @@ export default {
 /* body {
   background: ;
 } */
+
 
 .form-component {
   max-width: 650px;
@@ -168,6 +191,10 @@ export default {
   width: 400px;
   color: #08153E;
   border-radius: 6px;
+}
+.select-field {
+  font-size: 14px;
+  font-weight: 600;
 }
 .select-field,
 .input-field {
@@ -287,4 +314,5 @@ svg {
     max-width: default;
   }
 }
+
 </style>
