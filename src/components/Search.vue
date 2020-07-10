@@ -2,16 +2,25 @@
   <div class="Search search-component">
     <form id="search-component" @submit="checkForm" class="form-component">
       <div class="form-inner-component">
+
         <div class="image-block">
           <img class="weater-icon" v-if="imageIcon !== null" :src="'https://www.weatherbit.io/static/img/icons/' + imageIcon + '.png'"/>
         </div>
+
         <div class="select">
+          <country-flag v-if="countryCode !== null"
+            name="Country Flag"
+            :id="countryCode"
+            :country='countryCode'
+            size='normal'
+            class="country-flag"
+          />
           <select v-model.lazy="countryCode" @change="handleChange" class="select-field height-select-input select-width">
             <option v-for="(country, index) in checkCountryName"
               :key="index"
               :value="country.country_code"
               :selected="index === 0"
-              :data-value="country.city_name"            
+              :data-value="country.city_name"
             >
               {{ country.country_code }}
             </option>
@@ -38,7 +47,8 @@
           <div class="week-date date capitalize">{{ weekDate(country.datetime) }}</div>
           <div class="average-temperature">
             <div class="temperature-container">
-              <div class="temperature temperature-week">{{ averageTemperature(country.min_temp, country.max_temp) }}
+              <div class="temperature temperature-week" id="temperature">
+                {{ averageWeekTemperature(country.min_temp, country.max_temp) }}
                 <div class="celsius">°C</div>
               </div>
             </div>
@@ -73,8 +83,16 @@ export default {
       city: '',
       cityList: [],
       countryCode: null,
-      linearGradient: '',
+      linearGradient: '14',
       errors: []
+    }
+  },
+  watch: {
+    linearGradient: {
+      immediate: true,
+      handler (oldValue, newValue) {
+        document.body.style.background = `linear-gradient(${oldValue}5.74deg, #9BDBFF -33.02%, #B4DEDA 52.01%, #FFD66B 137.04%)`
+      }
     }
   },
   mounted () {
@@ -112,9 +130,13 @@ export default {
       const getFullName = moment(date).format('dddd')
       return getFullName
     },
+    averageWeekTemperature (minTemperature, maxTemperature) {
+      const averageWeekTemperature = Math.floor((minTemperature + maxTemperature) / 2)
+      this.linearGradient = averageWeekTemperature
+      return averageWeekTemperature
+    },
     averageTemperature (minTemperature, maxTemperature) {
       const averageTemperature = Math.floor((minTemperature + maxTemperature) / 2)
-      this.linearGradient = averageTemperature
       return averageTemperature
     },
     handleChange (e) {
@@ -127,11 +149,6 @@ export default {
 </script>
 
 <style>
-/* body {
-  background: ;
-} */
-
-
 .form-component {
   max-width: 650px;
   min-width: 300px;
@@ -155,11 +172,16 @@ export default {
 .height-select-input {
   padding: 15px
 }
+
 .select-width {
-  width: 95px;
+  width: 67px;
 }
 .capitalize {
   text-transform: uppercase;
+}
+.country-flag {
+  display: inline-block;
+  vertical-align: middle;
 }
 .form-inner-component {
   display: flex;
@@ -168,6 +190,10 @@ export default {
   align-items: center;     /* center items vertically, in this case */
   height: 100%;
   position: relative;
+}
+.select {
+  border: 1px solid rgba(8, 21, 62, 0.05);
+  border-radius: 6px;
 }
 .temperature-container {
   color: #FFFFFF;
@@ -195,8 +221,8 @@ export default {
 .select-field {
   font-size: 14px;
   font-weight: 600;
+  border: none;
 }
-.select-field,
 .input-field {
   margin-left: 10px;
   border-radius: 6px;
@@ -225,9 +251,6 @@ export default {
 }
 .input-field-button:active + .input-field-button {
   opacity: 1;
-}
-.select-field {
-  margin-left: 10px;
 }
 .select {
   position: relative;
@@ -304,6 +327,7 @@ svg {
   }
   .day-of-weeks {
     width: 100%;
+    padding-bottom: 20px;
   }
   .input-field {
     width: 180px;
