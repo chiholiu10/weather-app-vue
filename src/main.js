@@ -2,7 +2,9 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
+import CountryFlag from 'vue-country-flag'
 
+Vue.component('country-flag', CountryFlag)
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
