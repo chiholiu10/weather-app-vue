@@ -11,7 +11,7 @@ npm install
 # serve with hot reload at localhost:8080
 npm run dev
 ```
-# Assignment
+# To do list
 Develop a simple frontend application using best practices that calculates the average temperature forecast of a city.
 The design is located here:
 https://www.figma.com/file/AvW3g7PArmDFTYMp3TiTcb/Weather-app?node-id=6%3A212
